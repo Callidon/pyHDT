@@ -4,6 +4,7 @@ from setuptools import setup, Extension
 from os import listdir
 import pybind11
 import distutils
+import platform
 
 __pyhdt_version__ = "1.2.1"
 
@@ -66,7 +67,16 @@ include_dirs = [
 
 # Need to build in c++11 minimum
 # TODO add a check to use c++14 or c++17 if available
-extra_compile_args = ["-std=c++11", "-DHAVE_SERD"]
+extra_compile_args_macos = ["-std=c++11", "-DHAVE_SERD", "-DHAVE_POSIX_MEMALIGN"]
+extra_compile_args_win = ["-DHAVE_SERD", "-DWIN32", "-D_AMD64_", "-DUNICODE"]
+
+plaf = platform.system()
+if plaf == "Windows":
+    extra_compile_args = extra_compile_args_win
+elif plaf == "Darwin":
+    extra_compile_args = extra_compile_args_macos
+else:
+    extra_compile_args = ["-std=c++11", "-DHAVE_SERD", "-DHAVE_POSIX_MEMALIGN"]
 
 # build HDT extension
 hdt_extension = Extension("hdt", sources=sources, include_dirs=include_dirs,

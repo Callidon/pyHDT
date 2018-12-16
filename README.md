@@ -37,6 +37,15 @@ cd pyHDT/
 ./install.sh
 ```
 
+## Manual installation (Windows)
+```
+git clone https://github.com/Callidon/pyHDT
+cd pyHDT/
+git clone https://github.com/blschatz/hdt-cpp.git
+mv hdt-cpp hdt-cpp-1.3.2
+./install.sh
+
+```
 # Getting started
 
 ```python
