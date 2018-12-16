@@ -61,9 +61,72 @@ HDTDocument::HDTDocument(std::string file) {
 }
 
 /*!
+ * Constructor
+ * @param file [description]
+ */
+HDTDocument::HDTDocument(hdt::HDT * newhdt) {
+  hdt = newhdt;
+}
+
+/*!
  * Destructor
  */
 HDTDocument::~HDTDocument() {}
+
+/*!
+ * Factory method for generating an in-memory HDT from a turtle file
+ * @return [description]
+ */
+HDTDocument HDTDocument::generate(std::string inputFile, std::string baseUri) {
+        try {
+            string configFile;
+            string options;
+
+            if (!file_exists(inputFile)) {
+                throw std::runtime_error("Cannot open input Turtle file '" + inputFile + "': Not Found!");
+            }
+
+            RDFNotation notation = TURTLE;
+
+            HDTSpecification spec(configFile);
+            spec.setOptions(options);
+
+            HDT *hdt = HDTManager::generateHDT(inputFile.c_str(), baseUri.c_str(), notation, spec, NULL);
+
+            return HDTDocument(hdt);
+
+        } catch (std::exception& e) {
+            cerr << "ERROR: " << e.what() << endl;
+            return NULL;
+        }
+}
+
+/*!
+ * Save the current in-memory HDT to a persisted HDT.
+ * @return [description]
+ */
+int HDTDocument::saveToHDT(std::string outputFile) {
+        try {
+            bool generateIndex=false;
+            ofstream out;
+            hdt_file = outputFile;
+            // Save HDT
+            out.open(outputFile.c_str(), ios::out | ios::binary | ios::trunc);
+            if(!out.good()){
+                throw std::runtime_error("Could not open output file.");
+            }
+            hdt->saveToHDT(out, NULL);
+            out.close();
+
+            if(generateIndex) {
+                hdt = HDTManager::indexedHDT(hdt, NULL);
+            }
+            return 0;
+        } catch (std::exception& e) {
+            cerr << "ERROR: " << e.what() << endl;
+            return 1;
+        }
+}
 
 /*!
  * Get the path to the HDT file currently loaded

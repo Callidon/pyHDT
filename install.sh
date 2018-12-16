@@ -11,6 +11,10 @@ echo "Downloading HDT..."
 wget https://github.com/rdfhdt/hdt-cpp/archive/v1.3.2.zip
 unzip v1.3.2.zip
 
+echo "Downloading Serd..."
+wget https://github.com/drobilla/serd/archive/v0.30.0.zip
+unzip v0.30.0.zip
+
 echo "Installing pybind11..."
 pip install -r requirements.txt
 
@@ -19,3 +23,4 @@ python setup.py install
 
 echo "Cleaning up..."
 rm -rf hdt-cpp-1.3.2/
+rm -rf serd-0.30.0/
