@@ -37,6 +37,9 @@ def tests_nb_objects():
 def tests_nb_shared():
     assert document.nb_shared == 0
 
+def test_seach_missing_resource():
+    (triples, triplesCard) = document.search_triples("missingtriple", "", "")
+    assert triplesCard == 0
 
 def test_ids_to_string():
     (triples, triplesCard) = document.search_triples("", "", "")
