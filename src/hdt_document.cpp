@@ -152,6 +152,7 @@ std::string HDTDocument::python_repr() {
  * @param limit     [description]
  * @param offset    [description]
  */
+
 search_results HDTDocument::search(std::string subject,
                                    std::string predicate,
                                    std::string object,
@@ -161,6 +162,7 @@ search_results HDTDocument::search(std::string subject,
   TripleIterator *resultIterator = new TripleIterator(std::get<0>(tRes), hdt->getDictionary());
   return std::make_tuple(resultIterator, std::get<1>(tRes));
 }
+
 
 /*!
  * Same as search, but for an iterator over TripleIDs.
@@ -176,13 +178,27 @@ search_results_ids HDTDocument::searchIDs(std::string subject,
                                           std::string object,
                                           unsigned int limit,
                                           unsigned int offset) {
-  TripleID tp(hdt->getDictionary()->stringToId(subject, hdt::SUBJECT),
-              hdt->getDictionary()->stringToId(predicate, hdt::PREDICATE),
-              hdt->getDictionary()->stringToId(object, hdt::OBJECT));
-  IteratorTripleID *it = hdt->getTriples()->search(tp);
-  size_t cardinality = it->estimatedNumResults();
+  
+  TripleString ts(subject, predicate, object);
+  
+  TripleID tid;
+  hdt->getDictionary()->tripleStringtoTripleID(ts, tid);
+
+  IteratorTripleID *it;
+  size_t cardinality = 0;
+
+  // Make sure that all not-empty resources are in the graph
+  if( (tid.getSubject()==0 && !subject.empty()) ||
+      (tid.getPredicate()==0 && !predicate.empty()) ||
+      (tid.getObject()==0 && !object.empty()) ) {
+    it = new IteratorTripleID();
+  } else {
+    it = hdt->getTriples()->search(tid);
+    cardinality = it->estimatedNumResults();
+    applyOffset<IteratorTripleID>(it, offset, cardinality);
+  }
   // apply offset
-  applyOffset<IteratorTripleID>(it, offset, cardinality);
+
   TripleIDIterator *resultIterator =
       new TripleIDIterator(it, subject, predicate, object, limit, offset);
   return std::make_tuple(resultIterator, cardinality);
