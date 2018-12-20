@@ -22,5 +22,5 @@ echo "Installing pyHDT..."
 python setup.py install
 
 echo "Cleaning up..."
-rm -rf hdt-cpp-1.3.2/
-rm -rf serd-0.30.0/
+#rm -rf hdt-cpp-1.3.2/
+#rm -rf serd-0.30.0/
