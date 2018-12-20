@@ -91,7 +91,7 @@ def wrapped_new_compiler_fn(*args, **kwargs):
 
     def wrapped_compiler_compile(obj, src, ext, cc_args, extra_postargs, pp_opts):
         if ext == ".c":
-            return c_c(obj, src, ext, cc_args, [ "-DHAVE_SERD" ], pp_opts)
+            return c_c(obj, src, ext, cc_args, [ "-DHAVE_SERD", "-std=c99" ], pp_opts)
         else:
             return c_c(obj, src, ext, cc_args, extra_postargs, pp_opts)
     compiler._compile = wrapped_compiler_compile
