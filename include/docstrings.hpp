@@ -45,6 +45,10 @@ const char *HDT_DOCUMENT_GETNBSHARED_DOC = R"(
   Return the number of shared subject-object in the HDT document
 )";
 
+const char *HDT_DOCUMENT_SAVE_DOC = R"(
+  Save the generated HDT as a HDT document
+)";
+
 const char *HDT_DOCUMENT_SEARCH_TRIPLES_DOC = R"(
   Search for RDF triples matching the triple pattern { ``subject`` ``predicate`` ``object`` },
   with an optional ``limit`` and ``offset``.

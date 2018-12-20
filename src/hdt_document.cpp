@@ -61,9 +61,72 @@ HDTDocument::HDTDocument(std::string file) {
 }
 
 /*!
+ * Constructor
+ * @param file [description]
+ */
+HDTDocument::HDTDocument(hdt::HDT * newhdt) {
+  hdt = newhdt;
+}
+
+/*!
  * Destructor
  */
 HDTDocument::~HDTDocument() {}
+
+/*!
+ * Factory method for generating an in-memory HDT from a turtle file
+ * @return [description]
+ */
+HDTDocument HDTDocument::generate(std::string inputFile, std::string baseUri) {
+        try {
+            string configFile;
+            string options;
+
+            if (!file_exists(inputFile)) {
+                throw std::runtime_error("Cannot open input Turtle file '" + inputFile + "': Not Found!");
+            }
+
+            RDFNotation notation = TURTLE;
+
+            HDTSpecification spec(configFile);
+            spec.setOptions(options);
+
+            HDT *hdt = HDTManager::generateHDT(inputFile.c_str(), baseUri.c_str(), notation, spec, NULL);
+
+            return HDTDocument(hdt);
+
+        } catch (std::exception& e) {
+            cerr << "ERROR: " << e.what() << endl;
+            return NULL;
+        }
+}
+
+/*!
+ * Save the current in-memory HDT to a persisted HDT.
+ * @return [description]
+ */
+int HDTDocument::saveToHDT(std::string outputFile) {
+        try {
+            bool generateIndex=false;
+            ofstream out;
+            hdt_file = outputFile;
+            // Save HDT
+            out.open(outputFile.c_str(), ios::out | ios::binary | ios::trunc);
+            if(!out.good()){
+                throw std::runtime_error("Could not open output file.");
+            }
+            hdt->saveToHDT(out, NULL);
+            out.close();
+
+            if(generateIndex) {
+                hdt = HDTManager::indexedHDT(hdt, NULL);
+            }
+            return 0;
+        } catch (std::exception& e) {
+            cerr << "ERROR: " << e.what() << endl;
+            return 1;
+        }
+}
 
 /*!
  * Get the path to the HDT file currently loaded
@@ -89,6 +152,7 @@ std::string HDTDocument::python_repr() {
  * @param limit     [description]
  * @param offset    [description]
  */
+
 search_results HDTDocument::search(std::string subject,
                                    std::string predicate,
                                    std::string object,
@@ -98,6 +162,7 @@ search_results HDTDocument::search(std::string subject,
   TripleIterator *resultIterator = new TripleIterator(std::get<0>(tRes), hdt->getDictionary());
   return std::make_tuple(resultIterator, std::get<1>(tRes));
 }
+
 
 /*!
  * Same as search, but for an iterator over TripleIDs.
@@ -113,13 +178,27 @@ search_results_ids HDTDocument::searchIDs(std::string subject,
                                           std::string object,
                                           unsigned int limit,
                                           unsigned int offset) {
-  TripleID tp(hdt->getDictionary()->stringToId(subject, hdt::SUBJECT),
-              hdt->getDictionary()->stringToId(predicate, hdt::PREDICATE),
-              hdt->getDictionary()->stringToId(object, hdt::OBJECT));
-  IteratorTripleID *it = hdt->getTriples()->search(tp);
-  size_t cardinality = it->estimatedNumResults();
+  
+  TripleString ts(subject, predicate, object);
+  
+  TripleID tid;
+  hdt->getDictionary()->tripleStringtoTripleID(ts, tid);
+
+  IteratorTripleID *it;
+  size_t cardinality = 0;
+
+  // Make sure that all not-empty resources are in the graph
+  if( (tid.getSubject()==0 && !subject.empty()) ||
+      (tid.getPredicate()==0 && !predicate.empty()) ||
+      (tid.getObject()==0 && !object.empty()) ) {
+    it = new IteratorTripleID();
+  } else {
+    it = hdt->getTriples()->search(tid);
+    cardinality = it->estimatedNumResults();
+    applyOffset<IteratorTripleID>(it, offset, cardinality);
+  }
   // apply offset
-  applyOffset<IteratorTripleID>(it, offset, cardinality);
+
   TripleIDIterator *resultIterator =
       new TripleIDIterator(it, subject, predicate, object, limit, offset);
   return std::make_tuple(resultIterator, cardinality);

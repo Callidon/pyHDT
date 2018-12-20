@@ -33,6 +33,7 @@ private:
   hdt::HDT *hdt;
   hdt::QueryProcessor *processor;
   HDTDocument(std::string file);
+  HDTDocument(hdt::HDT *hdt);
 
 public:
   /*!
@@ -81,6 +82,19 @@ public:
    * @return [description]
    */
   unsigned int getNbShared();
+
+  /*!
+   * Static factory method used to create a new HDT Document from a TURTLE RDF file
+   * @param  file
+   * @param  baseURI
+   */
+  static HDTDocument generate(std::string inputFile, std::string baseUri);
+
+  /*!
+   * Write an in-memory HDT to a persisted HDT
+   * @param  file
+   */
+  int saveToHDT(std::string outputFile);
 
   /*!
    * Static factory method used to create a new HDT Document

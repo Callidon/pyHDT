@@ -3,8 +3,10 @@
 from setuptools import setup, Extension
 from os import listdir
 import pybind11
+import distutils
+import platform
 
-__pyhdt_version__ = "1.2.0"
+__pyhdt_version__ = "1.2.1"
 
 with open('README.rst') as file:
     long_description = file.read()
@@ -25,6 +27,7 @@ sources = [
 ]
 
 # HDT source files
+sources += list_files("serd-0.30.0/src/", extension=".c")
 sources += list_files("hdt-cpp-1.3.2/libcds/src/static/bitsequence")
 sources += list_files("hdt-cpp-1.3.2/libcds/src/static/coders")
 sources += list_files("hdt-cpp-1.3.2/libcds/src/static/mapper")
@@ -58,16 +61,42 @@ include_dirs = [
     "hdt-cpp-1.3.2/libcds/src/static/mapper",
     "hdt-cpp-1.3.2/libcds/src/static/permutation",
     "hdt-cpp-1.3.2/libcds/src/static/sequence",
-    "hdt-cpp-1.3.2/libcds/src/utils"
+    "hdt-cpp-1.3.2/libcds/src/utils",
+    "serd-0.30.0"
 ]
 
 # Need to build in c++11 minimum
 # TODO add a check to use c++14 or c++17 if available
-extra_compile_args = ["-std=c++11"]
+extra_compile_args_macos = ["-std=c++11", "-DHAVE_SERD", "-DHAVE_POSIX_MEMALIGN"]
+extra_compile_args_win = ["-DHAVE_SERD", "-DWIN32", "-D_AMD64_", "-DUNICODE"]
+
+plaf = platform.system()
+if plaf == "Windows":
+    extra_compile_args = extra_compile_args_win
+elif plaf == "Darwin":
+    extra_compile_args = extra_compile_args_macos
+else:
+    extra_compile_args = ["-std=c++11", "-DHAVE_SERD", "-DHAVE_POSIX_MEMALIGN"]
 
 # build HDT extension
 hdt_extension = Extension("hdt", sources=sources, include_dirs=include_dirs,
                           extra_compile_args=extra_compile_args, language='c++')
+
+# monkey patch the distutils compiler to enable compilation of the Serd parser source
+# it is C, and the C++11 compile argument is incompatible
+c = distutils.ccompiler.new_compiler
+def wrapped_new_compiler_fn(*args, **kwargs):
+    compiler = c(*args, **kwargs)
+    c_c = compiler._compile
+
+    def wrapped_compiler_compile(obj, src, ext, cc_args, extra_postargs, pp_opts):
+        if ext == ".c":
+            return c_c(obj, src, ext, cc_args, [ "-DHAVE_SERD", "-std=c99" ], pp_opts)
+        else:
+            return c_c(obj, src, ext, cc_args, extra_postargs, pp_opts)
+    compiler._compile = wrapped_compiler_compile
+    return compiler
+distutils.ccompiler.new_compiler = wrapped_new_compiler_fn
 
 setup(
     name="hdt",

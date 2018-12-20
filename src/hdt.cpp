@@ -12,6 +12,8 @@ namespace py = pybind11;
 PYBIND11_MODULE(hdt, m) {
   m.doc() = MODULE_DOC;
 
+  m.def("generate_hdt", &HDTDocument::generate, "Generate an HDT index from turtle file");
+
   py::class_<TripleIterator>(m, "TripleIterator", TRIPLE_ITERATOR_CLASS_DOC)
       .def("next", &TripleIterator::next, TRIPLE_ITERATOR_NEXT_DOC)
       .def("__next__", &TripleIterator::next, TRIPLE_ITERATOR_NEXT_DOC)
@@ -92,6 +94,9 @@ PYBIND11_MODULE(hdt, m) {
       .def("tripleid_to_string", &HDTDocument::idsToString,
            HDT_DOCUMENT_TRIPLES_IDS_TO_STRING_DOC,
            py::arg("subject"), py::arg("predicate"), py::arg("object"))
+      .def("save_to_hdt", &HDTDocument::saveToHDT,
+           HDT_DOCUMENT_SAVE_DOC,
+           py::arg("outpuf_file"))
       .def("__len__", &HDTDocument::getNbTriples, HDT_DOCUMENT_GETNBTRIPLES_DOC)
       .def("__repr__", &HDTDocument::python_repr);
 }
