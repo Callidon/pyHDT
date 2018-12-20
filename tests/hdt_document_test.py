@@ -54,15 +54,6 @@ def test_ids_to_string():
         assert pred == p
         assert obj == o
 
-def test_locate_folder():
-    dir_path = os.getcwd() + "/tests"
-    src_path = dir_path + "/test2.turtle"
-    dest_path = dir_path + "/test2.hdt"
-
-    print("Source: %s" % src_path)
-    print("Dest  : %s" % dest_path)
-    assert False
-
 def test_generate():
     path = "tests"
 
