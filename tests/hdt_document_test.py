@@ -57,7 +57,8 @@ def test_ids_to_string():
 def test_generate():
     path = "tests"
 
-    dir_path = os.path.dirname(os.path.realpath(path)) + "/" + path
+    #dir_path = os.path.dirname(os.path.realpath(path)) + "/" + path
+    dir_path = os.getcwd() + "/tests"
     src_path = dir_path + "/test2.turtle"
     dest_path = dir_path + "/test2.hdt"
 
