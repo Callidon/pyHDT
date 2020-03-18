@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -176,11 +176,11 @@ Upon creation, it search for an index file in the same dicrectory than the HDT f
 <span class="n">document</span> <span class="o">=</span> <span class="n">HDTDocument</span><span class="p">(</span><span class="s2">&quot;test.hdt&quot;</span><span class="p">)</span>
 
 <span class="c1"># Display some metadata about the HDT document itself</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;nb triples: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">document</span><span class="o">.</span><span class="n">total_triples</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;nb subjects: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">document</span><span class="o">.</span><span class="n">nb_subjects</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;nb predicates: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">document</span><span class="o">.</span><span class="n">nb_predicates</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;nb objects: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">document</span><span class="o">.</span><span class="n">nb_objets</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;nb shared subject-object: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">document</span><span class="o">.</span><span class="n">nb_shared</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nb triples: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">document</span><span class="o">.</span><span class="n">total_triples</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nb subjects: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">document</span><span class="o">.</span><span class="n">nb_subjects</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nb predicates: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">document</span><span class="o">.</span><span class="n">nb_predicates</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nb objects: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">document</span><span class="o">.</span><span class="n">nb_objets</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nb shared subject-object: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">document</span><span class="o">.</span><span class="n">nb_shared</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -195,9 +195,9 @@ It returns a 2-element tuple, with an <em>iterator</em> over the matching RDF tr
 <span class="c1"># Use empty strings (&quot;&quot;) to indicates variables</span>
 <span class="p">(</span><span class="n">triples</span><span class="p">,</span> <span class="n">cardinality</span><span class="p">)</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">search_triples</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;cardinality of { ?s ?p ?o }: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cardinality</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cardinality of { ?s ?p ?o }: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cardinality</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">triple</span> <span class="ow">in</span> <span class="n">triples</span><span class="p">:</span>
-  <span class="k">print</span><span class="p">(</span><span class="n">triple</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">triple</span><span class="p">)</span>
 
 <span class="c1"># Search also support limit and offset</span>
 <span class="p">(</span><span class="n">triples</span><span class="p">,</span> <span class="n">cardinality</span><span class="p">)</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">search_triples</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
@@ -216,10 +216,10 @@ An <code class="docutils literal notranslate"><span class="pre">HDTDocument</spa
 <span class="p">(</span><span class="n">triples</span><span class="p">,</span> <span class="n">cardinality</span><span class="p">)</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">search_triples_ids</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">triples</span><span class="p">:</span>
-  <span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="c1"># will print 3-element tuples of integers</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="c1"># will print 3-element tuples of integers</span>
 
   <span class="c1"># convert a triple ID to a string format</span>
-  <span class="k">print</span><span class="p">(</span><span class="n">document</span><span class="o">.</span><span class="n">convert_tripleid</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">))</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">document</span><span class="o">.</span><span class="n">convert_tripleid</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -234,9 +234,9 @@ An <code class="docutils literal notranslate"><span class="pre">HDTDocument</spa
 <span class="n">tp_b</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;?s&quot;</span><span class="p">,</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/name&quot;</span><span class="p">,</span> <span class="s2">&quot;?name&quot;</span><span class="p">)</span>
 <span class="n">iterator</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">search_join</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">tp_a</span><span class="p">,</span> <span class="n">tp_b</span><span class="p">]))</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;estimated join cardinality : </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterator</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;estimated join cardinality : </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterator</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">mappings</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
-  <span class="k">print</span><span class="p">(</span><span class="n">mappings</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">mappings</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -270,7 +270,7 @@ from c++ to python <a class="reference external" href="https://pybind11.readthed
 <span class="n">it</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">search_triple_bytes</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
-  <span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="c1"># print b&#39;...&#39;, b&#39;...&#39;, b&#39;...&#39;</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="c1"># print b&#39;...&#39;, b&#39;...&#39;, b&#39;...&#39;</span>
   <span class="c1"># now decode it, or handle any error</span>
   <span class="k">try</span><span class="p">:</span>
     <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">),</span> <span class="n">p</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">),</span> <span class="n">o</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span>
