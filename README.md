@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/Callidon/pyHDT.svg?branch=master)](https://travis-ci.org/Callidon/pyHDT) [![Documentation Status](https://readthedocs.org/projects/pyhdt/badge/?version=latest)](https://callidon.github.io/pyHDT) [![PyPI version](https://badge.fury.io/py/hdt.svg)](https://badge.fury.io/py/hdt)
 
+**pyHDT is joining the RDFlib family as part of the rdflib 6.0 release! The development continues at [rdflib-hdt](https://github.com/RDFLib/rdflib-hdt), and this repository is going into archive.**
+
 Read and query HDT document with ease in Python
 
 [Online Documentation](https://callidon.github.io/pyHDT)
